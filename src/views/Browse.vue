@@ -5,7 +5,7 @@
     <section class="main__profiles">
       <ul class="main__profiles__list">
         <n-card-profile
-        v-for="profile in profileList"
+        v-for="profile in getProfileList"
         :key="profile.id"
         :image="profile.image" :name="profile.name"></n-card-profile>
       </ul>
@@ -16,20 +16,16 @@
 <script>
 import NHeader from '@/components/NHeader'
 import NCardProfile from '@/components/NCardProfile'
+import { mapGetters } from 'vuex'
 export default {
   name: 'BrowsePage',
   components: {
     NHeader, NCardProfile
   },
-  data: function () {
-    return {
-      profileList: [
-        { id: 1, name: 'Lily', image: '/assets/images/profile1.png' },
-        { id: 2, name: 'Odannys', image: '/assets/images/profile2.png' },
-        { id: 3, name: 'Carlos', image: '/assets/images/profile3.png' },
-        { id: 4, name: 'Jose', image: '/assets/images/profile4.png' }
-      ]
-    }
+  computed: {
+    ...mapGetters([
+      'getProfileList'
+    ])
   }
 }
 </script>
