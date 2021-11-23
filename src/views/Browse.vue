@@ -7,7 +7,7 @@
         <n-card-profile
         v-for="profile in getProfileList"
         :key="profile.id"
-        :image="profile.image" :name="profile.name"></n-card-profile>
+        :profile="profile"></n-card-profile>
       </ul>
       <button class="main__profiles_button_admin">administrar perfiles</button>
     </section>
@@ -42,7 +42,7 @@ export default {
 }
 .main__title {
   color: #fff;
-  font-size: calc(2.5rem);
+  font-size: calc(3.0rem + 1vw);
   margin: 5.0rem 0 2.0rem;
   font-weight: 400;
   text-align: center;

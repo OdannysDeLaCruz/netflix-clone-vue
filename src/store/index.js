@@ -15,10 +15,10 @@ export default new Vuex.Store({
       password: '123'
     },
     profileList: [
-      { id: 1, name: 'Lily', image: '/assets/images/profile1.png' },
-      { id: 2, name: 'Odannys', image: '/assets/images/profile2.png' },
-      { id: 3, name: 'Carlos', image: '/assets/images/profile3.png' },
-      { id: 4, name: 'Jose', image: '/assets/images/profile4.png' }
+      { id: 1, name: 'Lily', image: '/assets/images/profile1.png', pin: false },
+      { id: 2, name: 'Odannys', image: '/assets/images/profile2.png', pin: true },
+      { id: 3, name: 'Carlos', image: '/assets/images/profile3.png', pin: true },
+      { id: 4, name: 'Jose', image: '/assets/images/profile4.png', pin: true }
     ]
   },
   getters: {

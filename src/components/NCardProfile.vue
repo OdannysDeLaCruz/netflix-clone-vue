@@ -4,9 +4,12 @@
       <a href="" class="profile__link">
         <div
           class="profile__img"
-          :style="{backgroundImage: 'url(' + image +')'}"
+          :style="{backgroundImage: 'url(' + profile.image +')'}"
         ></div>
-        <span class="profile__username">{{ name }}</span>
+        <span class="profile__username">{{ profile.name }}</span>
+        <span class="profile__pin">
+          <img v-if="profile.pin" class="profile__pin__img" src="@/assets/icons/icon-lock.svg" alt="Icono de candado">
+        </span>
       </a>
     </div>
   </li>
@@ -15,13 +18,9 @@
 export default {
   name: 'NCardProfile',
   props: {
-    image: {
-      type: String,
-      default: 'anonimo.png'
-    },
-    name: {
-      type: String,
-      default: 'Anónimo'
+    profile: {
+      type: Object,
+      default: null
     }
   }
 }
@@ -46,8 +45,8 @@ export default {
   font-weight: bold;
 }
 .profile__img {
-  width: calc(8.0rem + 1vw);
-  height: calc(8.0rem + 1vw);
+  width: calc(9.0rem + 1vw);
+  height: calc(9.0rem + 1vw);
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 4px;
@@ -55,13 +54,23 @@ export default {
 }
 .profile__username {
   width: 100%;
-  font-size: calc(.5em + 1vw);
+  font-size: calc(.4em + 1vw);
   display: block;
   color: grey;
   text-align: center;
   margin-top: 12px;
   font-weight: 500px;
 }
-@media (max-width: 800px) {
+.profile__pin {
+  display: flex;
+  margin-top: 20px;
+  width: 100%;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.profile__pin__img {
+  width: 20px;
 }
 </style>
