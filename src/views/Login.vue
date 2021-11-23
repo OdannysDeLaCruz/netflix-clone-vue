@@ -3,10 +3,10 @@
     <div class="login-page__base-background"></div>
     <n-header></n-header>
     <main>
-      <form action="#" class="form-login">
+      <form action="#" class="form-login" @submit.prevent="login">
         <h1 class="form-login__title">Inicia sesión</h1>
-        <input type="text" class="form-login__input" placeholder="Email o número de teléfono">
-        <input type="password" class="form-login__input" placeholder="Contraseña">
+        <input type="text" v-model="user.username" class="form-login__input" placeholder="Email o número de teléfono" autocomplete="on">
+        <input type="password" v-model="user.password" class="form-login__input" placeholder="Contraseña">
         <button type="submit" class="form-login__btn form-login__btn--primary">Iniciar sesión</button>
         <span class="form-login__need-help">
           <span class="remember-me">
@@ -25,12 +25,33 @@
 import NHeader from '@/components/NHeader'
 export default {
   name: 'LoginPage',
+  data: function () {
+    return {
+      user: {
+        username: '',
+        password: ''
+      }
+    }
+  },
   components: {
     NHeader
+  },
+  methods: {
+    login () {
+      console.log(this.user)
+      // this.$store.state.username = this.email
+      // this.$store.state.password = this.password
+      this.$store.dispatch('login', this.user).then((res) => {
+        if (res) {
+          console.log(this.$router.push('/browse'))
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+    }
   }
 }
 </script>
-script
 <style lang="scss" scoped>
 .login-page {
   background: #000;
