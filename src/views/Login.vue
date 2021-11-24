@@ -38,12 +38,9 @@ export default {
   },
   methods: {
     login () {
-      console.log(this.user)
-      // this.$store.state.username = this.email
-      // this.$store.state.password = this.password
       this.$store.dispatch('login', this.user).then((res) => {
         if (res) {
-          console.log(this.$router.push('/browse'))
+          this.$router.push('/browse')
         }
       }).catch(error => {
         console.log(error)

@@ -48,6 +48,9 @@ export default new Vuex.Store({
           }
         }, 100)
       })
+    },
+    logout ({ state }) {
+      state.isLogged = false
     }
   },
   modules: {

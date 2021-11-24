@@ -26,6 +26,12 @@ export default {
     ...mapGetters([
       'getProfileList'
     ])
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+    }
   }
 }
 </script>
