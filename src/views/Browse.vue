@@ -15,8 +15,9 @@
         <button class="main__profiles_button_admin">Administrar perfiles</button>
       </section>
     </div>
-
-    <n-profile-pin-prompt @togglePinSection="togglePinSection" v-if="showPin"></n-profile-pin-prompt>
+    <transition name="fade">
+      <n-profile-pin-prompt @togglePinSection="togglePinSection" v-if="showPin"></n-profile-pin-prompt>
+    </transition>
   </section>
 </template>
 <script>
@@ -96,7 +97,6 @@ export default {
   align-items: center;
   flex-wrap: wrap;
 }
-
 .main__profiles_button_admin {
   background: none;
   border: 1px solid grey;
@@ -111,5 +111,12 @@ export default {
 .main__profiles_button_admin:hover {
   color: white;
   border-color: white;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: all .3s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  transform: scale(1.5);
 }
 </style>
