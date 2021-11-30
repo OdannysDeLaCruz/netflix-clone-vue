@@ -70,31 +70,30 @@ export default {
   // z-index: 2;
   position: relative;
   margin: auto;
-  padding: calc(1em + 1vw);
+  padding: 0 5%;
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 30em;
-  // border: 1px solid yellow;
+  min-height: 30rem;
 }
 .form-login__title {
   color: #fff;
-  font-size: calc(1.7em + 1vw);
+  font-size: 32px;
   padding: 0;
-  margin: 0 0 .9em 0;
+  margin: 0 0 3rem 0;
 }
 .form-login__input {
-  padding: 1em;
+  padding: 1.5rem;
   background-color: var(--gray-color);
   color: #ffffff;
-  margin-bottom: 1em;
+  margin-bottom: 1.5rem;
   border: none;
-  font-size: 1em;
+  font-size: 1.5rem;
   letter-spacing: .3px;
-  border-radius: 4px;
+  border-radius: .4rem;
 }
 .form-login__input::placeholder {
-  font-size: .9em;
+  font-size: 1.5rem;
   font-weight: 300;
   color: #ffffff5d;
 }
@@ -103,8 +102,9 @@ export default {
   color: #ffffff;
   border: none;
   border-radius: 4px;
-  padding: 1em;
+  padding: 1.5rem;
   margin-top: 2em;
+  font-size: 1.5rem;
   &:hover {
     cursor: pointer;
   }
@@ -115,7 +115,7 @@ export default {
   font-weight: bold;
 }
 .form-login__need-help {
-  margin-top: 1em;
+  margin-top: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -126,13 +126,13 @@ export default {
 }
 .remember-me__text {
   color: #ffffff;
-  margin-left: .5em;
-  font-size: .8em;
+  margin-left: 1rem;
+  font-size: 1.3rem;
   color: #cccccc;
 }
 .need-help-link {
   color: #ffffff;
-  font-size: .8em;
+  font-size: 1.3rem;
   color: #cccccc;
   text-decoration: none;
 }
@@ -144,7 +144,7 @@ export default {
   }
   .form-login {
     width: 450px;
-    padding: calc(2em + 1vw);
+    padding: 60px 68px 40px;
     background: rgb(0,0, 0, .7);
   }
 }

@@ -18,8 +18,8 @@ const routes = [
   {
     path: '/browse',
     name: 'browse',
-    component: () => import(/* webpackChunkName: "browse" */ '../views/Browse.vue'),
-    meta: { requiredAuth: true }
+    component: () => import(/* webpackChunkName: "browse" */ '../views/Browse.vue')
+    // meta: { requiredAuth: true }
   }
 ]
 

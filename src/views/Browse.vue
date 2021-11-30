@@ -1,26 +1,40 @@
 <template>
   <section class="browse-page">
     <n-header></n-header>
-    <h1 class="main__title">¿Quién está viendo ahora?</h1>
-    <section class="main__profiles">
-      <ul class="main__profiles__list">
-        <n-card-profile
-        v-for="profile in getProfileList"
-        :key="profile.id"
-        :profile="profile"></n-card-profile>
-      </ul>
-      <button class="main__profiles_button_admin">administrar perfiles</button>
-    </section>
+    <div class="main__container">
+      <h1 class="main__title">¿Quién está viendo ahora?</h1>
+      <section class="main__profiles">
+        <ul class="main__profiles__list" >
+          <n-card-profile
+          v-for="profile in getProfileList"
+          :key="profile.id"
+          :profile="profile"
+          @requiredAuthPin="togglePinSection"
+          ></n-card-profile>
+        </ul>
+        <button class="main__profiles_button_admin">Administrar perfiles</button>
+      </section>
+    </div>
+
+    <n-profile-pin-prompt @togglePinSection="togglePinSection" v-if="showPin"></n-profile-pin-prompt>
   </section>
 </template>
 <script>
 import NHeader from '@/components/NHeader'
 import NCardProfile from '@/components/NCardProfile'
+import NProfilePinPrompt from '@/components/NProfilePinPrompt'
 import { mapGetters } from 'vuex'
 export default {
   name: 'BrowsePage',
+  data: function () {
+    return {
+      showPin: false
+    }
+  },
   components: {
-    NHeader, NCardProfile
+    NHeader,
+    NCardProfile,
+    NProfilePinPrompt
   },
   computed: {
     ...mapGetters([
@@ -31,6 +45,10 @@ export default {
     logout () {
       this.$store.dispatch('logout')
       this.$router.push('/login')
+    },
+    togglePinSection () {
+      this.showPin = !this.showPin
+      console.log(this.showPin)
     }
   }
 }
@@ -42,13 +60,21 @@ export default {
   position: relative;
   min-height: 100vh;
 }
-.container {
+.main__container {
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .main__title {
   color: #fff;
-  font-size: calc(3.0rem + 1vw);
+  font-size: calc(2.0rem + 2vw);
   margin: 5.0rem 0 2.0rem;
   font-weight: 400;
   text-align: center;
@@ -74,7 +100,7 @@ export default {
 .main__profiles_button_admin {
   background: none;
   border: 1px solid grey;
-  text-transform: uppercase;
+  // text-transform: uppercase;
   font-size: 16px;
   letter-spacing: 2px;
   font-weight: 300;

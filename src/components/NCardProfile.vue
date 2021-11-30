@@ -1,7 +1,7 @@
 <template>
-  <li class="profile">
+  <li class="profile" @click="requiredAuthPin">
     <div class="profile__content">
-      <a href="" class="profile__link">
+      <a href="#" class="profile__link" @click.prevent="">
         <div
           class="profile__img"
           :style="{backgroundImage: 'url(' + profile.image +')'}"
@@ -21,6 +21,15 @@ export default {
     profile: {
       type: Object,
       default: null
+    }
+  },
+  methods: {
+    requiredAuthPin () {
+      if (this.profile.pin) {
+        this.$emit('requiredAuthPin')
+      } else {
+        console.log('Ingresando...')
+      }
     }
   }
 }
@@ -54,7 +63,7 @@ export default {
 }
 .profile__username {
   width: 100%;
-  font-size: calc(.4em + 1vw);
+  font-size: calc(1em + 1vw);
   display: block;
   color: grey;
   text-align: center;

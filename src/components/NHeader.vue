@@ -14,10 +14,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header {
-  height: calc(2em + 1vh);
-  margin-bottom: 1em;
-  padding: 0 calc(1em + 1vw);
+  height: calc(2rem + 1vh);
+  margin-bottom: 3rem;
+  padding: 0 calc(1rem + 1vw);
   position: relative;
+  z-index: 10;
 }
 .header__figure {
   width: calc(7.0rem + 2vw);
