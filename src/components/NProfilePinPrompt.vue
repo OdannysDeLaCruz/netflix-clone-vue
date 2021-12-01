@@ -1,27 +1,44 @@
 <template>
-    <div class="profile-pin-prompt">
-        <div class="profile-pin__container">
-          <img src="@/assets/icons/icon-close.svg" class="profile-pin__dismiss" alt="Cerrar" @click="toggleViewPin">
-          <div class="profile-pin__status">El bloqueo de perfil está activado.</div>
-          <div class="profile-pin__instruction">Ingresar tu PIN para acceder a este perfil.</div>
-          <div class="profile-pin__wrapper">
-              <div class="profile-pin__write-container">
-                  <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 1." value="">
-                  <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 2." value="">
-                  <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 3." value="">
-                  <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 4." value="">
-              </div>
-              <span class="profile-pin__input-error"></span>
+  <transition name="fade-in-profile-pin">
+      <div class="profile-pin-prompt" v-if="showPin">
+          <div class="profile-pin__container">
+            <img src="@/assets/icons/icon-close.svg" class="profile-pin__dismiss" alt="Cerrar" @click="toggleViewPin">
+            <div class="profile-pin__status">El bloqueo de perfil está activado.</div>
+            <div class="profile-pin__instruction">Ingresar tu PIN para acceder a este perfil.</div>
+            <div class="profile-pin__wrapper">
+                <div class="profile-pin__write-container">
+                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 1." value="" id="pin" ref="pin">
+                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 2." value="" ref="pin2">
+                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 3." value="" ref="pin3">
+                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 4." value="" ref="pin4">
+                </div>
+                <span class="profile-pin__input-error"></span>
+            </div>
           </div>
-        </div>
-    </div>
+      </div>
+    </transition>
 </template>
 <script>
 export default {
   name: 'NProfilePinPrompt',
+  props: {
+    showPin: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     toggleViewPin () {
       this.$emit('togglePinSection')
+    }
+  },
+  watch: {
+    showPin: function (newVal, oldVal) {
+      if (newVal) {
+        this.$nextTick(() => {
+          document.querySelector('#pin').focus()
+        })
+      }
     }
   }
 }
@@ -99,6 +116,14 @@ export default {
   border-radius: 0px;
   outline: none;
   transform: scale(1.1);
+}
+.fade-in-profile-pin-enter-active,
+.fade-in-profile-pin-leave-active {
+  transition: all .3s;
+}
+.fade-in-profile-pin-enter,
+.fade-in-profile-pin-leave-to {
+  opacity: 0;
 }
 @media (min-width: 576px) {
   .profile-pin__status {

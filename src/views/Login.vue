@@ -1,28 +1,31 @@
 <template>
-  <section class="login-page">
-    <div class="login-page__base-background"></div>
-    <n-header></n-header>
-    <main>
-      <form action="#" class="form-login" @submit.prevent="login">
-        <h1 class="form-login__title">Inicia sesión</h1>
-        <input type="text" v-model="user.username" class="form-login__input" placeholder="Email o número de teléfono" autocomplete="on">
-        <input type="password" v-model="user.password" class="form-login__input" placeholder="Contraseña">
-        <button type="submit" class="form-login__btn form-login__btn--primary">Iniciar sesión</button>
-        <span class="form-login__need-help">
-          <span class="remember-me">
-              <label>
-                <input type="checkbox" class="remember-me__check">
-                <span class="remember-me__text">Recuerdame</span>
-              </label>
+ <transition name="fade" appear>
+    <section class="login-page">
+      <div class="login-page__base-background"></div>
+      <n-header></n-header>
+      <main>
+        <form action="#" class="form-login" @submit.prevent="login">
+          <h1 class="form-login__title">Inicia sesión</h1>
+          <input type="text" v-model="user.username" class="form-login__input" placeholder="Email o número de teléfono" autofocus autocomplete="on">
+          <input type="password" v-model="user.password" class="form-login__input" placeholder="Contraseña">
+          <button type="submit" class="form-login__btn form-login__btn--primary">Iniciar sesión</button>
+          <span class="form-login__need-help">
+            <span class="remember-me">
+                <label>
+                  <input type="checkbox" class="remember-me__check">
+                  <span class="remember-me__text">Recuerdame</span>
+                </label>
+            </span>
+            <a href="#" class="need-help-link">¿Necesitas ayuda?</a>
           </span>
-          <a href="#" class="need-help-link">¿Necesitas ayuda?</a>
-        </span>
-      </form>
-    </main>
-  </section>
+        </form>
+      </main>
+    </section>
+  </transition>
 </template>
 <script>
 import NHeader from '@/components/NHeader'
+import { mapGetters } from 'vuex'
 export default {
   name: 'LoginPage',
   data: function () {
@@ -35,6 +38,11 @@ export default {
   },
   components: {
     NHeader
+  },
+  computed: {
+    ...mapGetters([
+      'isLogged'
+    ])
   },
   methods: {
     login () {
@@ -75,6 +83,7 @@ export default {
   flex-direction: column;
   width: 100%;
   min-height: 30rem;
+  // opacity: 0;
 }
 .form-login__title {
   color: #fff;
@@ -135,6 +144,19 @@ export default {
   font-size: 1.3rem;
   color: #cccccc;
   text-decoration: none;
+}
+.fade-enter-active {
+  transition: all .8s;
+}
+.fade-leave-active {
+  transition: all .2s;
+}
+.fade-enter {
+  opacity: 0;
+  transform: scale(1.2);
+}
+.fade-leave-to {
+  opacity: 0;
 }
 @media only screen and (min-width: 600px) {
   .login-page {

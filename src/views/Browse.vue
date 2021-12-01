@@ -1,23 +1,23 @@
 <template>
   <section class="browse-page">
     <n-header></n-header>
-    <div class="main__container">
-      <h1 class="main__title">¿Quién está viendo ahora?</h1>
-      <section class="main__profiles">
-        <ul class="main__profiles__list" >
-          <n-card-profile
-          v-for="profile in getProfileList"
-          :key="profile.id"
-          :profile="profile"
-          @requiredAuthPin="togglePinSection"
-          ></n-card-profile>
-        </ul>
-        <button class="main__profiles_button_admin">Administrar perfiles</button>
-      </section>
-    </div>
-    <transition name="fade">
-      <n-profile-pin-prompt @togglePinSection="togglePinSection" v-if="showPin"></n-profile-pin-prompt>
-    </transition>
+     <transition name="fade-in-section-profiles" appear>
+      <div class="main__container">
+        <h1 class="main__title">¿Quién está viendo ahora?</h1>
+        <section class="main__profiles">
+          <ul class="main__profiles__list" >
+            <n-card-profile
+            v-for="profile in getProfileList"
+            :key="profile.id"
+            :profile="profile"
+            @requiredAuthPin="togglePinSection"
+            ></n-card-profile>
+          </ul>
+          <button class="main__profiles_button_admin">Administrar perfiles</button>
+        </section>
+      </div>
+     </transition>
+      <n-profile-pin-prompt @togglePinSection="togglePinSection" :showPin="showPin"></n-profile-pin-prompt>
   </section>
 </template>
 <script>
@@ -49,7 +49,11 @@ export default {
     },
     togglePinSection () {
       this.showPin = !this.showPin
-      console.log(this.showPin)
+      // console.log('desde browse', this.$refs)
+      // this.$nextTick(() => {
+      //   // this.$refs.pin.focus()
+      //   console.log(document.querySelector('#pin').focus())
+      // })
     }
   }
 }
@@ -112,11 +116,11 @@ export default {
   color: white;
   border-color: white;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: all .3s;
+.fade-in-section-profiles-enter-active {
+  transition: all 1s;
 }
-.fade-enter, .fade-leave-to {
+.fade-in-section-profiles-enter {
   opacity: 0;
-  transform: scale(1.5);
+  transform: scale(1.2);
 }
 </style>
