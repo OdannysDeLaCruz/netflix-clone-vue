@@ -2,22 +2,47 @@
   --gray-color: #333333;
   --red-color: #E50914;
   --black-color: #000000;
+  /*--Variables del perfil--*/
+  --profile-width: 5.0rem;
+  --profile-width-table: 8.4rem;
+  --time-transition-element: 0.3s
 }
 * {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
 }
-html {
+html, body  {
+  overflow: hidden;
   font-size: 62.5%;
+  // font-size: 13px;
 }
 body {
   font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
-  font-size: 16px;
   background-color: var(--black-color);
 }
-@media (min-width: 600px) {
-  html {
-    font-size: 100%;
+@media (min-width: 576px) {
+  html, body {
+    // font-size: 1vw;
+  }
+}
+@media (min-width: 768px) {
+  html, body {
+    // font-size: 100%;
+  }
+}
+@media (min-width: 992px) {
+  html, body {
+    // font-size: 1.5vw;
+  }
+}
+@media (min-width: 1200px) {
+  html, body {
+    // font-size: 100%;
+  }
+}
+@media (min-width: 1400px) {
+  html, body {
+    // font-size: 100%;
   }
 }

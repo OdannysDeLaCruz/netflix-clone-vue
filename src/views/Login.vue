@@ -1,28 +1,31 @@
 <template>
-  <section class="login-page">
-    <div class="login-page__base-background"></div>
-    <n-header></n-header>
-    <main>
-      <form action="#" class="form-login" @submit.prevent="login">
-        <h1 class="form-login__title">Inicia sesión</h1>
-        <input type="text" v-model="user.username" class="form-login__input" placeholder="Email o número de teléfono" autocomplete="on">
-        <input type="password" v-model="user.password" class="form-login__input" placeholder="Contraseña">
-        <button type="submit" class="form-login__btn form-login__btn--primary">Iniciar sesión</button>
-        <span class="form-login__need-help">
-          <span class="remember-me">
-              <label>
-                <input type="checkbox" class="remember-me__check">
-                <span class="remember-me__text">Recuerdame</span>
-              </label>
+ <transition name="fade" appear>
+    <section class="login-page">
+      <div class="login-page__base-background"></div>
+      <n-header></n-header>
+      <main>
+        <form action="#" class="form-login" @submit.prevent="login">
+          <h1 class="form-login__title">Inicia sesión</h1>
+          <input type="text" v-model="user.username" class="form-login__input" placeholder="Email o número de teléfono" autofocus autocomplete="on">
+          <input type="password" v-model="user.password" class="form-login__input" placeholder="Contraseña">
+          <button type="submit" class="form-login__btn form-login__btn--primary">Iniciar sesión</button>
+          <span class="form-login__need-help">
+            <span class="remember-me">
+                <label>
+                  <input type="checkbox" class="remember-me__check">
+                  <span class="remember-me__text">Recuerdame</span>
+                </label>
+            </span>
+            <a href="#" class="need-help-link">¿Necesitas ayuda?</a>
           </span>
-          <a href="#" class="need-help-link">¿Necesitas ayuda?</a>
-        </span>
-      </form>
-    </main>
-  </section>
+        </form>
+      </main>
+    </section>
+  </transition>
 </template>
 <script>
 import NHeader from '@/components/NHeader'
+import { mapGetters } from 'vuex'
 export default {
   name: 'LoginPage',
   data: function () {
@@ -36,14 +39,16 @@ export default {
   components: {
     NHeader
   },
+  computed: {
+    ...mapGetters([
+      'isLogged'
+    ])
+  },
   methods: {
     login () {
-      console.log(this.user)
-      // this.$store.state.username = this.email
-      // this.$store.state.password = this.password
       this.$store.dispatch('login', this.user).then((res) => {
         if (res) {
-          console.log(this.$router.push('/browse'))
+          this.$router.push('/browse')
         }
       }).catch(error => {
         console.log(error)
@@ -73,31 +78,31 @@ export default {
   // z-index: 2;
   position: relative;
   margin: auto;
-  padding: calc(1em + 1vw);
+  padding: 0 5%;
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 30em;
-  // border: 1px solid yellow;
+  min-height: 30rem;
+  // opacity: 0;
 }
 .form-login__title {
   color: #fff;
-  font-size: calc(1.7em + 1vw);
+  font-size: 32px;
   padding: 0;
-  margin: 0 0 .9em 0;
+  margin: 0 0 3rem 0;
 }
 .form-login__input {
-  padding: 1em;
+  padding: 1.5rem;
   background-color: var(--gray-color);
   color: #ffffff;
-  margin-bottom: 1em;
+  margin-bottom: 1.5rem;
   border: none;
-  font-size: 1em;
+  font-size: 1.5rem;
   letter-spacing: .3px;
-  border-radius: 4px;
+  border-radius: .4rem;
 }
 .form-login__input::placeholder {
-  font-size: .9em;
+  font-size: 1.5rem;
   font-weight: 300;
   color: #ffffff5d;
 }
@@ -106,8 +111,9 @@ export default {
   color: #ffffff;
   border: none;
   border-radius: 4px;
-  padding: 1em;
+  padding: 1.5rem;
   margin-top: 2em;
+  font-size: 1.5rem;
   &:hover {
     cursor: pointer;
   }
@@ -118,7 +124,7 @@ export default {
   font-weight: bold;
 }
 .form-login__need-help {
-  margin-top: 1em;
+  margin-top: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -129,15 +135,28 @@ export default {
 }
 .remember-me__text {
   color: #ffffff;
-  margin-left: .5em;
-  font-size: .8em;
+  margin-left: 1rem;
+  font-size: 1.3rem;
   color: #cccccc;
 }
 .need-help-link {
   color: #ffffff;
-  font-size: .8em;
+  font-size: 1.3rem;
   color: #cccccc;
   text-decoration: none;
+}
+.fade-enter-active {
+  transition: all .8s;
+}
+.fade-leave-active {
+  transition: all .2s;
+}
+.fade-enter {
+  opacity: 0;
+  transform: scale(1.2);
+}
+.fade-leave-to {
+  opacity: 0;
 }
 @media only screen and (min-width: 600px) {
   .login-page {
@@ -147,7 +166,7 @@ export default {
   }
   .form-login {
     width: 450px;
-    padding: calc(2em + 1vw);
+    padding: 60px 68px 40px;
     background: rgb(0,0, 0, .7);
   }
 }

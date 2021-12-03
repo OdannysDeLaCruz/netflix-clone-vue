@@ -13,11 +13,20 @@ export default new Vuex.Store({
     fakeUser: {
       username: 'odannys',
       password: '123'
-    }
+    },
+    profileList: [
+      { id: 1, name: 'Lily', image: '/assets/images/profile1.png', pin: false },
+      { id: 2, name: 'Odannys', image: '/assets/images/profile2.png', pin: true },
+      { id: 3, name: 'Carlos', image: '/assets/images/profile3.png', pin: true },
+      { id: 4, name: 'Jose', image: '/assets/images/profile4.png', pin: true }
+    ]
   },
   getters: {
     isLogged (state) {
       return state.isLogged
+    },
+    getProfileList (state) {
+      return state.profileList
     }
   },
   mutations: {
@@ -39,6 +48,9 @@ export default new Vuex.Store({
           }
         }, 100)
       })
+    },
+    logout ({ state }) {
+      state.isLogged = false
     }
   },
   modules: {
