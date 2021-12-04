@@ -7,10 +7,10 @@
             <div class="profile-pin__instruction">Ingresar tu PIN para acceder a este perfil.</div>
             <div class="profile-pin__wrapper">
                 <div class="profile-pin__write-container">
-                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 1." value="" v-model="pin1" ref="pin" @input="stepsPin" @keyup.delete.stop="stepsPin">
-                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 2." value="" v-model="pin2" ref="pin2" @input="stepsPin" @keyup.delete.stop="stepsPin">
-                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 3." value="" v-model="pin3" ref="pin3" @input="stepsPin" @keyup.delete.stop="stepsPin">
-                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 4." value="" v-model="pin4" ref="pin4" @input="stepsPin" @keyup.delete.stop="stepsPin">
+                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 1." value="" v-model="pins.pin1" ref="pin" @input="stepsPin" @keyup.delete.stop="stepsPin">
+                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 2." value="" v-model="pins.pin2" ref="pin2" @input="stepsPin" @keyup.delete.stop="stepsPin">
+                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 3." value="" v-model="pins.pin3" ref="pin3" @input="stepsPin" @keyup.delete.stop="stepsPin">
+                    <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 4." value="" v-model="pins.pin4" ref="pin4" @input="stepsPin" @keyup.delete.stop="stepsPin">
                 </div>
                 <span class="profile-pin__input-error"></span>
             </div>
@@ -19,6 +19,7 @@
     </transition>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'NProfilePinPrompt',
   props: {
@@ -28,19 +29,17 @@ export default {
     }
   },
   data: function () {
-    return {
-      pin1: '',
-      pin2: '',
-      pin3: '',
-      pin4: ''
-    }
+    return {}
+  },
+  computed: {
+    ...mapGetters('LoginProfilePin', [
+      'pinsOk',
+      'pins'
+    ])
   },
   methods: {
     toggleViewPin () {
       this.$emit('togglePinSection')
-    },
-    verifyInputPin () {
-      return (this.pin1 && this.pin2 && this.pin3 && this.pin4) || false
     },
     stepsPin (event) {
       if (event.type === 'input') {
@@ -53,7 +52,7 @@ export default {
               nextPin.select()
             }
           } else {
-            this.verifyInputPin() ? console.log('Ingresar') : console.log(false)
+            this.pinsOk ? console.log(true) : alert('Pin incorrecto')
           }
         }
       }
@@ -66,6 +65,9 @@ export default {
           }
         }
       }
+    },
+    loginProfile () {
+      // console.log(this.$store.state.LoginProfilePin.pin1)
     }
   },
   watch: {

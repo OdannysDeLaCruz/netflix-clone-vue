@@ -3,6 +3,31 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const moduleLoginProfilePin = {
+  namespaced: true,
+  state: () => ({
+    pins: {
+      pin1: '',
+      pin2: '',
+      pin3: '',
+      pin4: ''
+    }
+  }),
+  getters: {
+    pinsOk (state) {
+      if (state.pins.pin1 && state.pins.pin2 && state.pins.pin3 && state.pins.pin4) {
+        return true
+      }
+      return false
+    },
+    pins (state) {
+      return state.pins
+    }
+  },
+  mutations: {},
+  actions: {}
+}
+
 export default new Vuex.Store({
   state: {
     user: {
@@ -54,5 +79,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
+    LoginProfilePin: moduleLoginProfilePin
   }
 })
