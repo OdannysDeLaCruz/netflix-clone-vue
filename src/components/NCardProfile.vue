@@ -8,7 +8,7 @@
         ></div>
         <span class="profile__username">{{ profile.name }}</span>
         <span class="profile__pin">
-          <img v-if="profile.pin" class="profile__pin__img" src="@/assets/icons/icon-lock.svg" alt="Icono de candado">
+          <img v-if="profile.auth" class="profile__pin__img" src="@/assets/icons/icon-lock.svg" alt="Icono de candado">
         </span>
       </a>
     </div>
@@ -26,7 +26,7 @@ export default {
   methods: {
     requiredAuthPin () {
       if (this.profile.pin) {
-        this.$emit('requiredAuthPin')
+        this.$emit('requiredAuthPin', this.profile.id)
       } else {
         console.log('Ingresando...')
       }

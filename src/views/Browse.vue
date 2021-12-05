@@ -1,7 +1,8 @@
 <template>
   <section class="browse-page">
-    <n-header></n-header>
-     <transition name="fade-in-section-profiles" appear>
+    <div v-if="!mainView">
+      <n-header></n-header>
+      <transition name="fade-in-section-profiles" appear>
       <div class="main__container">
         <h1 class="main__title">¿Quién está viendo ahora?</h1>
         <section class="main__profiles">
@@ -10,32 +11,37 @@
             v-for="profile in getProfileList"
             :key="profile.id"
             :profile="profile"
-            @requiredAuthPin="togglePinSection"
+            @requiredAuthPin="toggleSectionAuthPin"
             ></n-card-profile>
           </ul>
           <button class="main__profiles_button_admin">Administrar perfiles</button>
         </section>
       </div>
-     </transition>
-      <n-profile-pin-prompt @togglePinSection="togglePinSection" :showPin="showPin"></n-profile-pin-prompt>
+      </transition>
+      <n-profile-pin-prompt :sectionAuthPin="sectionAuthPin" @closeSectionAuthPin="toggleSectionAuthPin" @showMainView="showMainView"></n-profile-pin-prompt>
+    </div>
+    <main-view v-else></main-view>
   </section>
 </template>
 <script>
 import NHeader from '@/components/NHeader'
 import NCardProfile from '@/components/NCardProfile'
 import NProfilePinPrompt from '@/components/NProfilePinPrompt'
-import { mapGetters } from 'vuex'
+import MainView from '@/components/MainView'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'BrowsePage',
   data: function () {
     return {
-      showPin: false
+      sectionAuthPin: false,
+      mainView: false
     }
   },
   components: {
     NHeader,
     NCardProfile,
-    NProfilePinPrompt
+    NProfilePinPrompt,
+    MainView
   },
   computed: {
     ...mapGetters([
@@ -43,17 +49,24 @@ export default {
     ])
   },
   methods: {
+    ...mapMutations('LoginProfilePin', [
+      'setProfileSelectedId',
+      'loginProfile'
+    ]),
     logout () {
       this.$store.dispatch('logout')
       this.$router.push('/login')
     },
-    togglePinSection () {
-      this.showPin = !this.showPin
-      // console.log('desde browse', this.$refs)
-      // this.$nextTick(() => {
-      //   // this.$refs.pin.focus()
-      //   console.log(document.querySelector('#pin').focus())
-      // })
+    toggleSectionAuthPin (profile = null) {
+      if (profile) {
+        this.setProfileSelectedId(profile)
+      }
+      this.sectionAuthPin = !this.sectionAuthPin
+    },
+    showMainView () {
+      this.mainView = true
+      // loguear al perfil en store
+      this.loginProfile()
     }
   }
 }

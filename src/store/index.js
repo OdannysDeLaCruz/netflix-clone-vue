@@ -11,21 +11,56 @@ const moduleLoginProfilePin = {
       pin2: '',
       pin3: '',
       pin4: ''
-    }
+    },
+    profileSelectedId: 0,
+    isLoggedProfile: false
   }),
   getters: {
-    pinsOk (state) {
+    pinsCompleted (state) {
       if (state.pins.pin1 && state.pins.pin2 && state.pins.pin3 && state.pins.pin4) {
         return true
       }
       return false
     },
-    pins (state) {
-      return state.pins
+    getPin (state) {
+      return `${state.pins.pin1}${state.pins.pin2}${state.pins.pin3}${state.pins.pin4}`
     }
   },
-  mutations: {},
-  actions: {}
+  mutations: {
+    loginProfile (state) {
+      state.isLoggedProfile = true
+    },
+    setProfileSelectedId (state, id) {
+      state.profileSelectedId = id
+    },
+    resetPins (state) {
+      state.pins.pin1 = ''
+      state.pins.pin2 = ''
+      state.pins.pin3 = ''
+      state.pins.pin4 = ''
+    }
+  },
+  actions: {
+    loginProfile ({ state, getters, rootState }) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const result = rootState.profileList.filter(profile => {
+            return profile.id === state.profileSelectedId
+          })
+          if (!result.length) {
+            reject(new Error('Profile not found'))
+          } else {
+            const profile = result[0]
+            if (getters.getPin === profile.pin) {
+              resolve(true)
+            } else {
+              reject(new Error('Pin incorrecto'))
+            }
+          }
+        }, 100)
+      })
+    }
+  }
 }
 
 export default new Vuex.Store({
@@ -40,10 +75,10 @@ export default new Vuex.Store({
       password: '123'
     },
     profileList: [
-      { id: 1, name: 'Lily', image: '/assets/images/profile1.png', pin: false },
-      { id: 2, name: 'Odannys', image: '/assets/images/profile2.png', pin: true },
-      { id: 3, name: 'Carlos', image: '/assets/images/profile3.png', pin: true },
-      { id: 4, name: 'Jose', image: '/assets/images/profile4.png', pin: true }
+      { id: 1, name: 'Lily', image: '/assets/images/profile1.png', auth: false, pin: '' },
+      { id: 2, name: 'Odannys', image: '/assets/images/profile2.png', auth: true, pin: '2222' },
+      { id: 3, name: 'Carlos', image: '/assets/images/profile3.png', auth: true, pin: '3333' },
+      { id: 4, name: 'Jose', image: '/assets/images/profile4.png', auth: true, pin: '4444' }
     ]
   },
   getters: {

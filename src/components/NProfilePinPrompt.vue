@@ -1,8 +1,8 @@
 <template>
   <transition name="fade-in-profile-pin">
-      <div class="profile-pin-prompt" v-if="showPin">
+      <div class="profile-pin-prompt" v-if="sectionAuthPin">
           <div class="profile-pin__container">
-            <img src="@/assets/icons/icon-close.svg" class="profile-pin__dismiss" alt="Cerrar" @click="toggleViewPin">
+            <img src="@/assets/icons/icon-close.svg" class="profile-pin__dismiss" alt="Cerrar" @click="closeSectionAuthPin">
             <div class="profile-pin__status">El bloqueo de perfil está activado.</div>
             <div class="profile-pin__instruction">Ingresar tu PIN para acceder a este perfil.</div>
             <div class="profile-pin__wrapper">
@@ -19,29 +19,39 @@
     </transition>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapGetters, mapActions, mapMutations } = createNamespacedHelpers('LoginProfilePin')
 export default {
   name: 'NProfilePinPrompt',
   props: {
-    showPin: {
+    sectionAuthPin: {
       type: Boolean,
       default: false
     }
   },
-  data: function () {
-    return {}
-  },
   computed: {
-    ...mapGetters('LoginProfilePin', [
-      'pinsOk',
-      'pins'
+    ...mapState({
+      pins: state => state.pins
+    }),
+    ...mapGetters([
+      'pinsCompleted',
+      'getPin'
     ])
   },
   methods: {
-    toggleViewPin () {
-      this.$emit('togglePinSection')
+    ...mapMutations([
+      'resetPins'
+    ]),
+    ...mapActions([
+      'loginProfile'
+    ]),
+    closeSectionAuthPin () {
+      this.$emit('closeSectionAuthPin')
     },
-    stepsPin (event) {
+    showMainView () {
+      this.$emit('showMainView')
+    },
+    async stepsPin (event) {
       if (event.type === 'input') {
         const valuePin = event.target.value
         if (valuePin) {
@@ -52,7 +62,21 @@ export default {
               nextPin.select()
             }
           } else {
-            this.pinsOk ? console.log(true) : alert('Pin incorrecto')
+            if (this.pinsCompleted) {
+              try {
+                const response = await this.loginProfile()
+                if (response) {
+                  console.log('ok')
+                  // mostrar componente MainView
+                  this.showMainView()
+                }
+              } catch (error) {
+                console.log(error)
+                if (error.message === 'Pin incorrecto') {
+                  // mostrar mensajes en formulario
+                }
+              }
+            }
           }
         }
       }
@@ -65,16 +89,14 @@ export default {
           }
         }
       }
-    },
-    loginProfile () {
-      // console.log(this.$store.state.LoginProfilePin.pin1)
     }
   },
   watch: {
-    showPin: function (newVal) {
+    sectionAuthPin: function (newVal) {
       if (newVal) {
         this.$nextTick(() => {
           this.$refs.pin.focus()
+          this.resetPins()
         })
       }
     }

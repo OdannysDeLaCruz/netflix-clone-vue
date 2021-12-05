@@ -5,11 +5,24 @@
         <img src="@/assets/images/icon-netflix.svg" class="header__principal-logo" alt="Netflix Clone Vue">
       </a>
     </figure>
+    <!-- <div v-if="isLoggedProfile"> -->
+      <n-navigation v-if="isLoggedProfile" type="principal"></n-navigation>
+    <!-- </div> -->
   </header>
 </template>
 <script>
+import NNavigation from '@/components/NNavigation'
+import { mapState } from 'vuex'
 export default {
-  name: 'NHeader'
+  name: 'NHeader',
+  components: {
+    NNavigation
+  },
+  computed: {
+    ...mapState('LoginProfilePin', [
+      'isLoggedProfile'
+    ])
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -19,13 +32,16 @@ export default {
   padding: 0 calc(1rem + 1vw);
   position: relative;
   z-index: 10;
+  display: flex;
+  align-items: center;
 }
 .header__figure {
   width: calc(7.0rem + 2vw);
   height: 100%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   padding: 0px;
+  margin-right: 3.5rem;
 }
 .header__principal-logo {
   width: 100%;
