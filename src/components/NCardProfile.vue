@@ -24,11 +24,15 @@ export default {
     }
   },
   methods: {
+    showMainView () {
+      this.$emit('showMainView')
+    },
     requiredAuthPin () {
       if (this.profile.pin) {
         this.$emit('requiredAuthPin', this.profile.id)
       } else {
         console.log('Ingresando...')
+        this.showMainView()
       }
     }
   }

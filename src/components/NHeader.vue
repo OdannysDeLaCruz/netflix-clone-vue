@@ -7,11 +7,12 @@
     </figure>
     <!-- <div v-if="isLoggedProfile"> -->
       <n-navigation v-if="isLoggedProfile" type="principal"></n-navigation>
+      <n-navigation v-if="isLoggedProfile" type="secondary"></n-navigation>
     <!-- </div> -->
   </header>
 </template>
 <script>
-import NNavigation from '@/components/NNavigation'
+import NNavigation from '@/components/Navigation/NNavigation'
 import { mapState } from 'vuex'
 export default {
   name: 'NHeader',

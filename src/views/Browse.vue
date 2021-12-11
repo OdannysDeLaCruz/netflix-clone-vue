@@ -12,6 +12,7 @@
             :key="profile.id"
             :profile="profile"
             @requiredAuthPin="toggleSectionAuthPin"
+            @showMainView="showMainView"
             ></n-card-profile>
           </ul>
           <button class="main__profiles_button_admin">Administrar perfiles</button>

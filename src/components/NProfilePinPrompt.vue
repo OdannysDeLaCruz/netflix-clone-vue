@@ -4,9 +4,11 @@
           <div class="profile-pin__container">
             <img src="@/assets/icons/icon-close.svg" class="profile-pin__dismiss" alt="Cerrar" @click="closeSectionAuthPin">
             <div class="profile-pin__status">El bloqueo de perfil está activado.</div>
-            <div class="profile-pin__instruction">Ingresar tu PIN para acceder a este perfil.</div>
+            <div class="profile-pin__instruction" :class="isInvalidPin ? 'profile-pin__instruction--error' : ''">
+              {{ isInvalidPin ? 'Oh, oh, el PIN es incorrecto. Reinténtalo.' : 'Ingresar tu PIN para acceder a este perfil.' }}
+            </div>
             <div class="profile-pin__wrapper">
-                <div class="profile-pin__write-container">
+                <div class="profile-pin__write-container" :class="isInvalidPin ? 'profile-pin__write-container--invalid' : ''">
                     <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 1." value="" v-model="pins.pin1" ref="pin" @input="stepsPin" @keyup.delete.stop="stepsPin">
                     <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 2." value="" v-model="pins.pin2" ref="pin2" @input="stepsPin" @keyup.delete.stop="stepsPin">
                     <input type="tel" maxlength="1" class="profile-pin__input" tabindex="0" aria-label="Entrada de PIN 3." value="" v-model="pins.pin3" ref="pin3" @input="stepsPin" @keyup.delete.stop="stepsPin">
@@ -29,6 +31,11 @@ export default {
       default: false
     }
   },
+  data: function () {
+    return {
+      isInvalidPin: false
+    }
+  },
   computed: {
     ...mapState({
       pins: state => state.pins
@@ -45,6 +52,9 @@ export default {
     ...mapActions([
       'loginProfile'
     ]),
+    resetPrompt () {
+      this.isInvalidPin = false
+    },
     closeSectionAuthPin () {
       this.$emit('closeSectionAuthPin')
     },
@@ -52,6 +62,7 @@ export default {
       this.$emit('showMainView')
     },
     async stepsPin (event) {
+      this.isInvalidPin = false
       if (event.type === 'input') {
         const valuePin = event.target.value
         if (valuePin) {
@@ -66,14 +77,13 @@ export default {
               try {
                 const response = await this.loginProfile()
                 if (response) {
-                  console.log('ok')
                   // mostrar componente MainView
                   this.showMainView()
                 }
               } catch (error) {
-                console.log(error)
                 if (error.message === 'Pin incorrecto') {
                   // mostrar mensajes en formulario
+                  this.isInvalidPin = true
                 }
               }
             }
@@ -97,6 +107,7 @@ export default {
         this.$nextTick(() => {
           this.$refs.pin.focus()
           this.resetPins()
+          this.resetPrompt()
         })
       }
     }
@@ -149,11 +160,34 @@ export default {
   font-weight: bold;
   text-align: center;
 }
+.profile-pin__instruction--error {
+  color: #e6b209;
+}
 .profile-pin__write-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 2.0rem;
+}
+.profile-pin__write-container--invalid {
+  animation: invalid 200ms linear forwards 0s;
+}
+@keyframes invalid {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(10px, 0px);
+  }
+  50% {
+    transform: translate(-10px, 0px);
+  }
+  75% {
+    transform: translate(10px, 0px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
 }
 .profile-pin__input {
   --width-input: calc(5rem + 2vw);
