@@ -1,17 +1,14 @@
 <template>
   <li class="profile" @click="requiredAuthPin">
-    <div class="profile__content">
-      <a href="#" class="profile__link" @click.prevent="">
-        <div
-          class="profile__img"
-          :style="{backgroundImage: 'url(' + profile.image +')'}"
-        ></div>
+    <a href="#" class="profile__link" @click.prevent="">
+      <div class="profile__content" :class="'profile--'+display">
+        <div class="profile__img" :style="{backgroundImage: 'url(' + profile.image +')'}"></div>
         <span class="profile__username">{{ profile.name }}</span>
         <span class="profile__pin">
           <img v-if="profile.auth" class="profile__pin__img" src="@/assets/icons/icon-lock.svg" alt="Icono de candado">
         </span>
-      </a>
-    </div>
+      </div>
+    </a>
   </li>
 </template>
 <script>
@@ -21,6 +18,10 @@ export default {
     profile: {
       type: Object,
       default: null
+    },
+    display: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -28,6 +29,7 @@ export default {
       this.$emit('showMainView')
     },
     requiredAuthPin () {
+      // console.log(this.$listeners)
       if (this.profile.pin) {
         this.$emit('requiredAuthPin', this.profile.id)
       } else {
@@ -57,22 +59,26 @@ export default {
   color: white;
   font-weight: bold;
 }
+.profile__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .profile__img {
-  width: calc(9.0rem + 1vw);
-  height: calc(9.0rem + 1vw);
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 4px;
-  transition: ease all var(--time-transition-element);
+width: calc(9rem + 2vw);
+height: calc(9rem + 2vw);
+background-repeat: no-repeat;
+background-size: cover;
+border-radius: 4px;
+transition: ease all var(--time-transition-element);
 }
 .profile__username {
   width: 100%;
-  font-size: calc(1em + 1vw);
+  font-size: calc(1rem + 1vw);
   display: block;
   color: grey;
   text-align: center;
   margin-top: 12px;
-  font-weight: 500px;
 }
 .profile__pin {
   display: flex;
@@ -85,5 +91,25 @@ export default {
 }
 .profile__pin__img {
   width: 20px;
+}
+// Inline version
+.profile--inline {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.profile--inline .profile__img {
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
+  margin-right: 10px;
+  border: 1px solid red;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 4px;
+  transition: ease all var(--time-transition-element);
 }
 </style>

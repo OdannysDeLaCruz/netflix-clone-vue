@@ -5,24 +5,61 @@
         <img src="@/assets/images/icon-netflix.svg" class="header__principal-logo" alt="Netflix Clone Vue">
       </a>
     </figure>
-    <!-- <div v-if="isLoggedProfile"> -->
-      <n-navigation v-if="isLoggedProfile" type="principal"></n-navigation>
-      <n-navigation v-if="isLoggedProfile" type="secondary"></n-navigation>
-    <!-- </div> -->
+    <n-navigation v-if="isLoggedProfile" :items="itemsNavPrincipal"></n-navigation>
+    <div v-if="isLoggedProfile" class="header__navigation__secondary">
+      <navigation-item>
+        <input type="text" placeholder="Buscar">
+      </navigation-item>
+      <navigation-item>
+        <navigation-dropdown v-on="$listeners"></navigation-dropdown>
+      </navigation-item>
+    </div>
   </header>
 </template>
 <script>
 import NNavigation from '@/components/Navigation/NNavigation'
+import NavigationItem from '@/components/Navigation/NavigationItem'
+import NavigationDropdown from '@/components/Navigation/NavigationDropdown'
 import { mapState } from 'vuex'
 export default {
   name: 'NHeader',
+  data: function () {
+    return {
+      itemsNavPrincipal: [
+        { url: '/browse', text: 'Inicio', active: true },
+        { url: '/series', text: 'Series', active: false },
+        { url: '/movies', text: 'Películas', active: false },
+        { url: '/latest', text: 'Novedades populares', active: false },
+        { url: '/my-list', text: 'Mi lista', active: false }
+      ],
+      itemsNavDropdown: [
+        { url: '/browse', text: 'Inicio', active: true },
+        { url: '/series', text: 'Series', active: false },
+        { url: '/movies', text: 'Películas', active: false },
+        { url: '/latest', text: 'Novedades populares', active: false },
+        { url: '/my-list', text: 'Mi lista', active: false }
+      ]
+    }
+  },
   components: {
-    NNavigation
+    NNavigation,
+    NavigationItem,
+    NavigationDropdown
   },
   computed: {
     ...mapState('LoginProfilePin', [
       'isLoggedProfile'
     ])
+  },
+  methods: {
+    toggleSectionAuthPin (profile = null) {
+      console.log('header', profile)
+      this.$emit('rAuthPin', profile)
+      // if (profile) {
+      //   this.setProfileSelectedId(profile)
+      // }
+      // this.sectionAuthPin = !this.sectionAuthPin
+    }
   }
 }
 </script>
@@ -46,5 +83,13 @@ export default {
 }
 .header__principal-logo {
   width: 100%;
+}
+.header__navigation__secondary {
+  display: flex;
+  align-items: center;
+  border: 1px solid tomato;
+  padding: 2px;
+  position: relative;
+  margin-left: auto;
 }
 </style>

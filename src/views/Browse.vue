@@ -1,7 +1,7 @@
 <template>
   <section class="browse-page">
     <div v-if="!mainView">
-      <n-header></n-header>
+      <n-header v-on="$listeners">></n-header>
       <transition name="fade-in-section-profiles" appear>
       <div class="main__container">
         <h1 class="main__title">¿Quién está viendo ahora?</h1>
@@ -11,7 +11,7 @@
             v-for="profile in getProfileList"
             :key="profile.id"
             :profile="profile"
-            @requiredAuthPin="toggleSectionAuthPin"
+            v-on="$listeners"
             @showMainView="showMainView"
             ></n-card-profile>
           </ul>
@@ -58,7 +58,11 @@ export default {
       this.$store.dispatch('logout')
       this.$router.push('/login')
     },
+    myPin (pin) {
+      console.log('pin', pin)
+    },
     toggleSectionAuthPin (profile = null) {
+      console.log('browse', profile)
       if (profile) {
         this.setProfileSelectedId(profile)
       }
